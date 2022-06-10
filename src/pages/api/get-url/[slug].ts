@@ -24,7 +24,12 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
     return;
   }
 
-  return res.redirect(data.url);
+  res.setHeader('Content-Type', 'application/json');
+  res.setHeader('Access-Control-Allow-Origin', '*');
+  // Vercel caching headers (https://vercel.com/docs/concepts/edge-network/caching)
+  res.setHeader('Cache-Control', 's-maxage=3600, stale-while-revalidate=86400');
+
+  return res.json(data);
 };
 
 export default handler;
